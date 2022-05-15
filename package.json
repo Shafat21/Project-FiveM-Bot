@@ -1,24 +1,28 @@
 {
-    "name": "structure-discord-bot",
+    "name": "project-fivem-all-bot",
     "version": "2.0.0",
-    "description": "Command, slash command & event handler - Discord Bot Template (v13)",
+    "description": "Project FiveM All Rounder Bot - Discord Bot (v13)",
     "main": "index.js",
     "scripts": {
+        "dev": "nodemon index.js",
+        "slash": "node ./slash.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
         "type": "git",
-        "url": "github.com/meliooff/Structure-Discord-Bot"
+        "url": "git+https://github.com/Shafat21/Project-FiveM-Bot.git"
     },
-    "keywords": [ "event-handler", "command-handler", "discord-bot-template", "slash-command-handler" ],
-    "author": "meliooff",
+    "author": "VENOM",
     "license": "MIT",
     "dependencies": {
         "@discordjs/rest": "^0.2.0-canary.0",
+        "axios": "^0.19.2",
         "chalk": "^4.0.0",
         "discord.js": "^13.5.1",
         "fs": "0.0.1-security",
+        "gamedig": "^2.0.20",
         "moment": "^2.24.0",
+        "nodemon": "^2.0.16",
         "quick.db": "^7.1.1"
     }
 }

@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'example',
+    name: 'ping',
     description: 'Very simple example of a command to understand how to use this template',
     usage: '<prefix>example [ping]', //OPTIONAL (for the help cmd)
     examples: ['example', 'example ping:true'], //OPTIONAL (for the help cmd)

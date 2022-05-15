@@ -1,6 +1,6 @@
 module.exports = {
-    name: 'example',
-    description: 'Very simple example of a command to understand how to use this template',
+    name: 'ping',
+    description: 'ping',
     usage: '<prefix>example [ping]', //OPTIONAL (for the help cmd)
     examples: ['example', 'example ping'], //OPTIONAL (for the help cmd)
     aliases: ['eg'],
@@ -9,10 +9,6 @@ module.exports = {
     permissions: [], // OPTIONAL
     
     run :async (client, message, args) => {   
-        if(args[0] === 'ping') {
-            message.reply(`Hello world !\n> Bot's latency : **${Math.round(client.ws.ping)}ms**`)
-        } else {
-            message.reply("Hello world !")
-        }
+        message.reply(`Hello world !\n> Bot's latency : **${Math.round(client.ws.ping)}ms**`)
     }
 }
