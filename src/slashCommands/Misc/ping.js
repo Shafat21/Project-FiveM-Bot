@@ -3,7 +3,7 @@ module.exports = {
     description: 'Very simple example of a command to understand how to use this template',
     usage: '<prefix>example [ping]', //OPTIONAL (for the help cmd)
     examples: ['example', 'example ping:true'], //OPTIONAL (for the help cmd)
-    dir: "directoryName",
+    dir: "Misc",
     cooldown: 1, // Cooldown in seconds, by default it's 2 seconds | OPTIONAL
     permissions: [], // OPTIONAL
     options: [
