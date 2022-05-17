@@ -6,6 +6,7 @@ module.exports = async (client) => {
         files.forEach(file => {
             const event = require(`${__dirname}/../../event/${file}`);
             let eventName = file.split(".")[0];
+            client.logger.loader(`Loading Events Client ${eventName}`, "event");
             client.on(eventName, event.bind(null, client));
         });
         client.logger.loader(`${client.color.chalkcolor.red('[FINISH]')} ${files.length} events loaded`)

@@ -1,11 +1,18 @@
 {
     "SERVER_URL": "http://103.130.112.134:30100",
     "IP": "103.130.112.134",
+    "MAX_PLAYERS": "2048",
     "PORT": "30100",
-    "SERVER_LOGO": "https://cdn.discordapp.com/attachments/970249904981176380/973598801736642630/SyncMe_Official_Logo_Beta.png",
+    "UPDATE_TIME": "900",
+    "FOOTER_UPDATE_1": "Server 1",
+    "FOOTER_UPDATE_2": "Server 2",
+    "FIELD_TEXT_1": "Joining Address",
+    "FIELD_PARAGRAPH": "Joining Address",
+    "SERVER_BANNER": "https://cdn.discordapp.com/attachments/861295740721692722/968472265442328586/Banner-01.png",
+    "SERVER_LOGO": "https://cdn.discordapp.com/attachments/861295740721692722/968472265442328586/Banner-01.png",
     "SERVER_NAME": "VENOM_TEST",
     "SUGGESTIONS":"972897490040930388",
+    "CHANNEL_ID":"972897513252204574",
+    "MESSAGE_ID":"975358942609817640",
     "ANNOUNCEMENT":"972897513252204574"
-
-    
 }
