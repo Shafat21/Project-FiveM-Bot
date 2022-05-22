@@ -19,6 +19,7 @@
         "axios": "^0.27.2",
         "chalk": "^4.0.0",
         "discord.js": "^13.0.0",
+        "djs-akinator": "^4.0.2",
         "fetch-timeout": "^0.0.2",
         "fs": "0.0.1-security",
         "gamedig": "^2.0.20",

@@ -75,7 +75,9 @@ module.exports = async (client) => {
             inline: true
         })
         .setURL(`https://www.patreon.com/corddj`)
-        .setFooter(`Venom FiveM All Rounder Bot. | Buy it from [Fiverr](https://www.patreon.com/corddj) ○ Patreon ○ contact VENOM#9208 on Discord.`);
+        .setFooter({
+            text: "Venom FiveM All Rounder Bot. | Buy it from [Fiverr](https://www.patreon.com/corddj) ○ Patreon ○ contact VENOM#9208 on Discord.", iconURL: `https://cdn.discordapp.com/attachments/833753190859407411/856507357869637632/venom2.gif`
+            })
     channel.bulkDelete(10);
     channel.send({ embeds: [embed2] }).then((msg) => {
         setInterval(() => {
@@ -84,9 +86,13 @@ module.exports = async (client) => {
 
                 let time = new Date().toLocaleString();
                 let embed2 = new MessageEmbed()
-                    .setAuthor(`${config.SERVER_NAME}`, `${config.SERVER_LOGO}`)
+                    .setTitle(`${config.SERVER_NAME}`)
+                    .setAuthor({ name: `${config.SERVER_NAME}`, iconURL: `${config.SERVER_LOGO}`, url: `${config.SERVER_JOINING_LINK}` })
                     .setColor("#2f3136")
-                    .setFooter(`${config.FOOTER}`)
+                    .setFooter({
+                        text: `${config.FOOTER}`,
+                        iconURL: `${config.SERVER_LOGO}` 
+                        })
                     .setTimestamp(new Date())
 
                     .addFields({
@@ -112,9 +118,12 @@ module.exports = async (client) => {
                     getPlayers().then((_players) => {
                         let time = new Date().toLocaleString();
                         let embed22 = new MessageEmbed()
-                            .setAuthor(`${config.SERVER_NAME}`, `${config.SERVER_LOGO}`, `${config.SERVER_JOINING_LINK}`)
-                            .setFooter(`${config.FOOTER}`)
-                            .setColor("#2f3136")
+                        .setAuthor({ name: `${config.SERVER_NAME}`, iconURL: `${config.SERVER_LOGO}`, url: `${config.SERVER_JOINING_LINK}` })
+                        .setColor("#2f3136")
+                        .setFooter({
+                            text: `${config.FOOTER}`,
+                            iconURL: `${config.SERVER_LOGO}` 
+                            })
                             .addFields({
                                 name: `${emoji.server_logo} City Status`,
                                 value: `\`\`\`🟢  Online\`\`\``,
