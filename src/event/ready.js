@@ -79,68 +79,6 @@ module.exports = async (client) => {
     channel.bulkDelete(10);
     channel.send({ embeds: [embed2] }).then((msg) => {
         setInterval(() => {
-            // if (URL_INFO) {
-
-            //     getVars().then((_vars) => {
-            //         getPlayers().then((_players) => {
-            //             let time = new Date().toLocaleString();
-            //             let embed22 = new MessageEmbed()
-            //                 .setAuthor(`${config.SERVER_NAME}`, `${config.SERVER_LOGO}`, `${config.SERVER_JOINING_LINK}`)
-            //                 .setFooter(`${config.FOOTER}`)
-            //                 .setColor("#2f3136")
-            //                 .addFields({
-            //                     name: `${emoji.server_logo} City Status`,
-            //                     value: `\`\`\`🟢  Online\`\`\``,
-            //                     inline: true
-            //                 })
-            //                 .addFields({
-            //                     name: `${emoji.online} Online Players`,
-            //                     value: `\`\`\`${_players.length} / ${MAX_PLAYERS}\`\`\``,
-            //                     inline: true
-            //                 })
-            //                 .addFields({
-            //                     name: `${emoji.refresh} Refreshed`,
-            //                     value: `\`\`\`${time}\`\`\``,
-            //                     inline: true
-            //                 })
-
-            //                 .addField(`${config.FIELD_TEXT_1}`, `${config.FIELD_PARAGRAPH_1}`, true)
-            //                 .addField(`${config.FIELD_TEXT_2}`, `${config.FIELD_PARAGRAPH_2}`, true)
-            //                 .setImage(`${config.SERVER_BANNER}`);
-            //                 msg.edit({ embeds: [embed22] });
-            //                 msg.react(`${emoji.server_logo}`)
-            //         });
-            //     });
-
-
-            // } else if (URL_INFO) {
-
-            //     let time = new Date().toLocaleString();
-            //     let embed2 = new MessageEmbed()
-            //         .setAuthor(`${config.SERVER_NAME}`, `${config.SERVER_LOGO}`)
-            //         .setColor("#2f3136")
-            //         .setFooter(`${config.FOOTER}`)
-            //         .setTimestamp(new Date())
-
-            //         .addFields({
-            //             name: `${emoji.server_logo} City Status`,
-            //             value: `\`\`\`🔴 Offline\`\`\``,
-            //             inline: true
-            //         })
-            //         .addFields({
-            //             name: `${emoji.refresh} Refreshed`,
-            //             value: `\`\`\`${time}\`\`\``,
-            //             inline: true
-            //         })
-            //         .addField("\u200b", `\u200b`, true)
-
-            //         .setImage(`${config.SERVER_BANNER}`);
-
-            //     msg.edit({ embeds: [embed2] });
-            //     msg.react(`${emoji.server_logo}`)
-
-            // };
-
 
             if (LAST_COUNT = null) {
 
@@ -167,7 +105,6 @@ module.exports = async (client) => {
 
                 msg.edit({ embeds: [embed2] });
                 msg.react(`${emoji.server_logo}`)
-               
 
             } else {
 
@@ -202,25 +139,7 @@ module.exports = async (client) => {
                             
                     });
                 });
-
-
-
-                
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         }, UPDATE_TIME);
     })
@@ -229,9 +148,6 @@ module.exports = async (client) => {
         'type': 'PLAYING'
     });
 
-
     client.logger.info(`${client.user.username}  =  𝙁𝙞𝙫𝙚𝙈 𝙎𝙚𝙧𝙫𝙚𝙧 𝙎𝙩𝙖𝙩𝙪𝙨 𝙞𝙨 𝙊𝙣𝙡𝙞𝙣𝙚❗❗`);
-
-
 
 };
