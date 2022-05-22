@@ -15,14 +15,12 @@ const FETCH_TIMEOUT = 900;
 const FETCH_OPS = {
     'cache': 'no-cache',
     'method': 'GET',
-    'headers': {
-        'User-Agent': USER_AGENT
-    }
-};
+    'headers': { 'User-Agent': USER_AGENT }
+  };
 const CHANNEL_ID = config.CHANNEL_ID;
 const UPDATE_TIME = config.UPDATE_TIME; // in ms
 
-var LAST_COUNT = URL_INFO;
+var LAST_COUNT;
 
 
 const getPlayers = function () {
@@ -49,6 +47,9 @@ const getVars = function () {
 
 module.exports = async (client) => {
 
+
+
+    // const channel = await client.channels.fetch(config.channel)
     let channel = client.channels.cache.get(CHANNEL_ID);
 
     const embed2 = new MessageEmbed()
@@ -74,11 +75,75 @@ module.exports = async (client) => {
             inline: true
         })
         .setURL(`https://www.patreon.com/corddj`)
-        .setFooter(`Venom FiveM All Rounder Bot. | Buy it from Fiverr ○ Patreon ○ contact VENOM#9208 on Discord.`);
+        .setFooter(`Venom FiveM All Rounder Bot. | Buy it from [Fiverr](https://www.patreon.com/corddj) ○ Patreon ○ contact VENOM#9208 on Discord.`);
     channel.bulkDelete(10);
     channel.send({ embeds: [embed2] }).then((msg) => {
         setInterval(() => {
-            if (LAST_COUNT == null) {
+            // if (URL_INFO) {
+
+            //     getVars().then((_vars) => {
+            //         getPlayers().then((_players) => {
+            //             let time = new Date().toLocaleString();
+            //             let embed22 = new MessageEmbed()
+            //                 .setAuthor(`${config.SERVER_NAME}`, `${config.SERVER_LOGO}`, `${config.SERVER_JOINING_LINK}`)
+            //                 .setFooter(`${config.FOOTER}`)
+            //                 .setColor("#2f3136")
+            //                 .addFields({
+            //                     name: `${emoji.server_logo} City Status`,
+            //                     value: `\`\`\`🟢  Online\`\`\``,
+            //                     inline: true
+            //                 })
+            //                 .addFields({
+            //                     name: `${emoji.online} Online Players`,
+            //                     value: `\`\`\`${_players.length} / ${MAX_PLAYERS}\`\`\``,
+            //                     inline: true
+            //                 })
+            //                 .addFields({
+            //                     name: `${emoji.refresh} Refreshed`,
+            //                     value: `\`\`\`${time}\`\`\``,
+            //                     inline: true
+            //                 })
+
+            //                 .addField(`${config.FIELD_TEXT_1}`, `${config.FIELD_PARAGRAPH_1}`, true)
+            //                 .addField(`${config.FIELD_TEXT_2}`, `${config.FIELD_PARAGRAPH_2}`, true)
+            //                 .setImage(`${config.SERVER_BANNER}`);
+            //                 msg.edit({ embeds: [embed22] });
+            //                 msg.react(`${emoji.server_logo}`)
+            //         });
+            //     });
+
+
+            // } else if (URL_INFO) {
+
+            //     let time = new Date().toLocaleString();
+            //     let embed2 = new MessageEmbed()
+            //         .setAuthor(`${config.SERVER_NAME}`, `${config.SERVER_LOGO}`)
+            //         .setColor("#2f3136")
+            //         .setFooter(`${config.FOOTER}`)
+            //         .setTimestamp(new Date())
+
+            //         .addFields({
+            //             name: `${emoji.server_logo} City Status`,
+            //             value: `\`\`\`🔴 Offline\`\`\``,
+            //             inline: true
+            //         })
+            //         .addFields({
+            //             name: `${emoji.refresh} Refreshed`,
+            //             value: `\`\`\`${time}\`\`\``,
+            //             inline: true
+            //         })
+            //         .addField("\u200b", `\u200b`, true)
+
+            //         .setImage(`${config.SERVER_BANNER}`);
+
+            //     msg.edit({ embeds: [embed2] });
+            //     msg.react(`${emoji.server_logo}`)
+
+            // };
+
+
+            if (LAST_COUNT = null) {
+
                 let time = new Date().toLocaleString();
                 let embed2 = new MessageEmbed()
                     .setAuthor(`${config.SERVER_NAME}`, `${config.SERVER_LOGO}`)
@@ -102,8 +167,9 @@ module.exports = async (client) => {
 
                 msg.edit({ embeds: [embed2] });
                 msg.react(`${emoji.server_logo}`)
+               
 
-            } else if (URL_INFO) {
+            } else {
 
                 getVars().then((_vars) => {
                     getPlayers().then((_players) => {
@@ -133,11 +199,29 @@ module.exports = async (client) => {
                             .setImage(`${config.SERVER_BANNER}`);
                             msg.edit({ embeds: [embed22] });
                             msg.react(`${emoji.server_logo}`)
-                    })
-                })
+                            
+                    });
+                });
+
+
 
                 
-            };
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         }, UPDATE_TIME);
     })
 

@@ -6,6 +6,10 @@ module.exports = async (client) => {
                 return client.logger.error('Bad token see config.js for set the token')
             } else if (err.stack.includes('Missing Permissions')) {
                 return client.logger.error('Permission Error')
+            } else if (err.stack.includes('Rate Limit')) {
+                return client.logger.error('Rate Limit Hitted')
+            } else if (err.stack.includes('Error Server Link')) {
+                return client.logger.error('Error Server Link')
             } else {
                 return client.logger.error(err.stack)
             }
