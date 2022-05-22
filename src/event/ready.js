@@ -1,6 +1,4 @@
-const {
-    MessageEmbed
-} = require("discord.js");
+const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 const config = require("../../server.json");
 const emoji = require("../../emoji.json")
 const fetchTimeout = require('fetch-timeout');
@@ -54,32 +52,23 @@ module.exports = async (client) => {
 
     const embed2 = new MessageEmbed()
         .setColor("#2F3136")
-        .setDescription("Please wait for a minute!\nStatus is being ready!\nStatus will show after Update Time given in my system.")
+        .setDescription(`Please wait for a minute!\nStatus is being ready!\nStatus will show after ${(config.UPDATE_TIME % 60000 ) / 1000} sec(s) given in my system. \n\n Purchase this bot from [Discord: VENOM#9208](https://www.discord.com/users/493042603181342730)\n• [FiveM ID of VENOM](https://forum.cfx.re/u/mr_venom)\n• [Patreon of VENOM](https://www.patreon.com/corddj)\n• [Fiverr of VENOM](https://www.fiverr.com/shafata1am)`)
         .setTitle(`VENOM FIVEM ALL ROUNDER BOT`)
         .setURL(`https://www.patreon.com/corddj`)
-        .addFields({
-            name: `FiveM`,
-            value: `https://www.patreon.com/corddj`,
-            inline: true
-        },{
-            name: `Fiverr`,
-            value: `https://www.fiverr.com/shafata1am`,
-            inline: true
-        },{
-            name: `Patreon`,
-            value: `https://www.patreon.com/corddj`,
-            inline: true
-        },{
-            name: `Discord`,
-            value: `https://www.discord.com/users/493042603181342730`,
-            inline: true
-        })
         .setURL(`https://www.patreon.com/corddj`)
         .setFooter({
-            text: "Venom FiveM All Rounder Bot. | Buy it from [Fiverr](https://www.patreon.com/corddj) ○ Patreon ○ contact VENOM#9208 on Discord.", iconURL: `https://cdn.discordapp.com/attachments/833753190859407411/856507357869637632/venom2.gif`
+            text: "Venom FiveM All Rounder Bot. | Buy it from Fiverr ○ Patreon ○ contact VENOM#9208 on Discord.", iconURL: `https://cdn.discordapp.com/attachments/833753190859407411/856507357869637632/venom2.gif`
             })
+
+        const venomrow = new MessageActionRow()
+			.addComponents(
+				new MessageButton()
+					.setLabel('Joining Server Link')
+                    .setURL(`${config.SERVER_JOINING_LINK}`)
+					.setStyle('LINK'),
+			);
     channel.bulkDelete(10);
-    channel.send({ embeds: [embed2] }).then((msg) => {
+    channel.send({ embeds: [embed2], components: [venomrow] }).then((msg) => {
         setInterval(() => {
 
             if (LAST_COUNT = null) {
@@ -110,7 +99,6 @@ module.exports = async (client) => {
                     .setImage(`${config.SERVER_BANNER}`);
 
                 msg.edit({ embeds: [embed2] });
-                msg.react(`${emoji.server_logo}`)
 
             } else {
 
@@ -144,7 +132,6 @@ module.exports = async (client) => {
                             .addField(`${config.FIELD_TEXT_2}`, `${config.FIELD_PARAGRAPH_2}`, true)
                             .setImage(`${config.SERVER_BANNER}`);
                             msg.edit({ embeds: [embed22] });
-                            msg.react(`${emoji.server_logo}`)
                             
                     });
                 });
