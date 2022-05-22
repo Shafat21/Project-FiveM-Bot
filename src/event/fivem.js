@@ -1,65 +1,37 @@
-const { MessageEmbed } = require("discord.js");
+const {
+    MessageEmbed
+} = require("discord.js");
 const config = require("../../server.json");
 const fetchTimeout = require('fetch-timeout');
 
+const USER_AGENT = `Venom Fivem All Rounder Bot ${require('../../package.json').version} , Node ${process.version} (${process.platform}${process.arch})`;
+
+const URL_PLAYERS = new URL('/players.json', config.SERVER_URL).toString();
+const URL_INFO = new URL('/info.json', config.SERVER_URL).toString();
+const MAX_PLAYERS = config.MAX_PLAYERS;
+const TICK_MAX = 1 << 9; // max bits for TICK_N
+const FETCH_TIMEOUT = 900;
+const FETCH_OPS = {
+    'cache': 'no-cache',
+    'method': 'GET',
+    'headers': {
+        'User-Agent': USER_AGENT
+    }
+};
+
+const CHANNEL_ID = config.CHANNEL_ID;
+const MESSAGE_ID = config.MESSAGE_ID;
+const UPDATE_TIME = config.UPDATE_TIME; // in ms
+
+var TICK_N = 0;
+var MESSAGE;
+var LAST_COUNT;
+var STATUS;
+
+
+var loop_callbacks = []; // for testing whether loop is still running
+
 module.exports = async (client) => {
-
-    const USER_AGENT = `Venom Fivem All Rounder Bot ${require('../../package.json').version} , Node ${process.version} (${process.platform}${process.arch})`;
-
-    const URL_PLAYERS = new URL('/players.json', config.SERVER_URL).toString();
-    const URL_INFO = new URL('/info.json', config.SERVER_URL).toString();
-    const MAX_PLAYERS = config.MAX_PLAYERS;
-    const TICK_MAX = 1 << 9; // max bits for TICK_N
-    const FETCH_TIMEOUT = 900;
-    const FETCH_OPS = {
-        'cache': 'no-cache',
-        'method': 'GET',
-        'headers': {
-            'User-Agent': USER_AGENT
-        }
-    };
-    const channel = await client.channels.fetch(config.CHANNEL_ID)
-    const CHANNEL_ID = config.CHANNEL_ID;
-    const MESSAGE_ID = config.MESSAGE_ID;
-    const UPDATE_TIME = config.UPDATE_TIME; // in ms
-
-    var TICK_N = 0;
-    var MESSAGE;
-    var LAST_COUNT;
-    var STATUS;
-
-    var loop_callbacks = []; // for testing whether loop is still running
-
-    const sendOrUpdate = function (embed) {
-        if (MESSAGE !== undefined) {
-            MESSAGE.edit({embed:[embed]}).then(() => {
-                client.logger.info(`FiveM Server Status is Update Sucess!`);
-            }).catch(() => {
-                client.logger.info(`FiveM Server Status is Update Sucess!`);
-            })
-        } else {
-            let channel = client.channels.cache.get(CHANNEL_ID);
-            if (channel !== undefined) {
-                channel.fetchMessage(MESSAGE_ID).then((message) => {
-                    MESSAGE = message;
-                    message.edit({embed:[embed]}).then(() => {
-                        client.logger.info(`FiveM Server Status is Update Sucess!`);
-                    }).catch(() => {
-                        client.logger.info(`FiveM Server Status is Update Sucess!`);
-                    });
-                }).catch(() => {
-                    channel.send({embed:[embed]}).then((message) => {
-                        MESSAGE = message;
-                        client.logger.info(`Sent message (${message.id})`);
-                    }).catch(console.log);
-                })
-            } else {
-                client.logger.info(`Update channel not set`);
-            }
-        }
-    };
-
-    
 
     const getPlayers = function () {
         return new Promise((resolve, reject) => {
@@ -80,6 +52,111 @@ module.exports = async (client) => {
             }).catch(reject);
         });
     };
+
+    const channel = await client.channels.fetch(config.channel)
+
+    const embed2 = new MessageEmbed()
+        .setColor("#2F3136")
+        .setDescription("Please wait for a minute!\nStatus is being ready!")
+    channel.bulkDelete(10);
+    channel.send(embed2).then((msg) => {
+        setInterval(() => {
+
+            let all = []
+            if (offline) {
+                let time = new Date().toLocaleString() + ' GMT';
+                let newembed = new MessageEmbed()
+                    .setAuthor(`${config.SERVER_NAME}`, `${config.SERVER_LOGO}`)
+                    .setColor("#2f3136")
+                    .setFooter(TICK_N % 2 === 0 ? `${config.FOOTER_UPDATE_1}` : `${config.FOOTER_UPDATE_2}`)
+                    .setTimestamp(new Date())
+
+                    .addFields({
+                        name: 'City Status',
+                        value: `\`\`\`🔴 Offline\`\`\``,
+                        inline: true
+                    })
+                    .addFields({
+                        name: 'Refreshed',
+                        value: `\`\`\`${time}\`\`\``,
+                        inline: true
+                    })
+                    .addField("\u200b", `\u200b`, true)
+
+                    .setImage(`${config.SERVER_BANNER}`);
+
+                msg.edit(newembed);
+
+            } else if (online) {
+
+                getVars().then((_vars) => {
+                    getPlayers().then((players) => {
+                        let time = new Date().toLocaleString() + ' GMT';
+                        let newEmbed2 = new MessageEmbed()
+                            .addFields({
+                                name: 'City Status',
+                                value: `\`\`\`🟢  Online\`\`\``,
+                                inline: true
+                            })
+                            .addFields({
+                                name: 'Online Players',
+                                value: `\`\`\`${players.length} / ${MAX_PLAYERS}\`\`\``,
+                                inline: true
+                            })
+                            .addFields({
+                                name: 'Refreshed',
+                                value: `\`\`\`${time}\`\`\``,
+                                inline: true
+                            })
+
+                            .addField(`${config.FIELD_TEXT_1}`, `${config.FIELD_PARAGRAPH}`, true)
+                            .setImage(`${config.SERVER_BANNER}`);
+                    })
+                })
+
+                Msg.edit(newEmbed2);
+            };
+        }, 2000);
+    })
+
+    const sendOrUpdate = function (embed) {
+        if (MESSAGE !== undefined) {
+            MESSAGE.edit({
+                embed: [embed]
+            }).then(() => {
+                client.logger.info(`FiveM Server Status is Update Sucess!`);
+            }).catch(() => {
+                client.logger.info(`FiveM Server Status is Update Error!`);
+            })
+        } else {
+            let channel = client.channels.cache.get(CHANNEL_ID);
+            if (channel !== undefined) {
+                channel.fetchMessage(MESSAGE_ID).then((message) => {
+                    MESSAGE = message;
+                    message.edit({
+                        embed: [embed]
+                    }).then(() => {
+                        client.logger.info(`FiveM Server Status is Update Sucess!`);
+                    }).catch(() => {
+                        client.logger.info(`FiveM Server Status is Update Error!`);
+                    });
+                }).catch(() => {
+                    channel.send({
+                        embed: [embed]
+                    }).then((message) => {
+                        MESSAGE = message;
+                        client.logger.info(`Sent message (${message.id})`);
+                    }).catch(console.log);
+                })
+            } else {
+                client.logger.info(`Update channel not set`);
+            }
+        }
+    };
+
+
+
+
 
     const UpdateEmbed = function () {
         let embed = new MessageEmbed()
@@ -107,7 +184,9 @@ module.exports = async (client) => {
             .addField("\u200b", `\u200b`, true)
 
             .setImage(`${config.SERVER_BANNER}`);
-        sendOrUpdate({embed:[embed]});
+        sendOrUpdate({
+            embed: [embed]
+        });
         LAST_COUNT = null;
     };
 
@@ -133,11 +212,13 @@ module.exports = async (client) => {
                         value: `\`\`\`${time}\`\`\``,
                         inline: true
                     })
-                    
+
                     .addField(`${config.FIELD_TEXT_1}`, `${config.FIELD_PARAGRAPH}`, true)
                     .setImage(`${config.SERVER_BANNER}`);
 
-                sendOrUpdate({embed:[embed]});
+                sendOrUpdate({
+                    embed: [embed]
+                });
 
                 LAST_COUNT = players.length;
             }).catch(offline);
@@ -151,29 +232,33 @@ module.exports = async (client) => {
             callback();
         }
     };
-    
+
 
 
 
 
 
     const embed = new MessageEmbed()
-    .setColor("#2F3136")
-    .setDescription("Please wait for a minute!\nStatus is being ready!")
-    channel.send({embed:[embed]});
+        .setColor("#2F3136")
+        .setDescription("Please wait for a minute!\nStatus is being ready!")
+    channel.send({
+        embed: [embed]
+    });
     channel.bulkDelete(10);
     channel.send(embed).then((message) => {
-        setInterval(() =>{
-            message.edit({embed:[updateMessage]});
-        },UPDATE_TIME)
+        setInterval(() => {
+            message.edit({
+                embed: [updateMessage]
+            });
+        }, UPDATE_TIME)
     });
 
-    
+
 
     client.user.setActivity('github.com/Shafat21', {
         'type': 'PLAYING'
     });
-    
+
 
     client.logger.info(`${client.user.username} FiveM Server Status is online!`);
 
