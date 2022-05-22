@@ -10,7 +10,7 @@ const USER_AGENT = `Venom Fivem All Rounder Bot ${require('../../package.json').
 const URL_PLAYERS = new URL('/players.json', config.SERVER_URL).toString();
 const URL_INFO = new URL('/info.json', config.SERVER_URL).toString();
 const MAX_PLAYERS = config.MAX_PLAYERS;
-let last_count = URL_INFO;
+
 const FETCH_TIMEOUT = 900;
 const FETCH_OPS = {
     'cache': 'no-cache',
@@ -21,6 +21,8 @@ const FETCH_OPS = {
 };
 const CHANNEL_ID = config.CHANNEL_ID;
 const UPDATE_TIME = config.UPDATE_TIME; // in ms
+
+var LAST_COUNT = URL_INFO;
 
 
 const getPlayers = function () {
@@ -76,7 +78,7 @@ module.exports = async (client) => {
     channel.bulkDelete(10);
     channel.send({ embeds: [embed2] }).then((msg) => {
         setInterval(() => {
-            if (last_count == null) {
+            if (LAST_COUNT == null) {
                 let time = new Date().toLocaleString();
                 let embed2 = new MessageEmbed()
                     .setAuthor(`${config.SERVER_NAME}`, `${config.SERVER_LOGO}`)
