@@ -153,6 +153,10 @@ module.exports = async (client) => {
     };
     
 
+
+
+
+
     const embed = new MessageEmbed()
     .setColor("#2F3136")
     .setDescription("Please wait for a minute!\nStatus is being ready!")
@@ -163,6 +167,8 @@ module.exports = async (client) => {
             message.edit({embed:[updateMessage]});
         },UPDATE_TIME)
     });
+
+    
 
     client.user.setActivity('github.com/Shafat21', {
         'type': 'PLAYING'
