@@ -72,7 +72,7 @@ module.exports = async (client) => {
         setInterval(() => {
 
             if (LAST_COUNT = null) {
-
+                channel.setName(` 🔴 Offline`);
                 let time = new Date().toLocaleString();
                 let embed2 = new MessageEmbed()
                     .setTitle(`${config.SERVER_NAME}`)
@@ -104,6 +104,7 @@ module.exports = async (client) => {
 
                 getVars().then((_vars) => {
                     getPlayers().then((_players) => {
+                        channel.setName(` 🟢 ${_players.length} Players Online`);
                         let time = new Date().toLocaleString();
                         let embed22 = new MessageEmbed()
                         .setAuthor({ name: `${config.SERVER_NAME}`, iconURL: `${config.SERVER_LOGO}`, url: `${config.SERVER_JOINING_LINK}` })
@@ -114,7 +115,7 @@ module.exports = async (client) => {
                             })
                             .addFields({
                                 name: `${emoji.server_logo} City Status`,
-                                value: `\`\`\`🟢  Online\`\`\``,
+                                value: `\`\`\`🟢 Online\`\`\``,
                                 inline: true
                             })
                             .addFields({
